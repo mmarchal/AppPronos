@@ -1,20 +1,21 @@
 import 'package:flutter/material.dart';
 
-class Sociaux extends StatefulWidget {
+class Classement extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
-    return new _Sociaux();
+    return new _Classement();
   }
 }
 
-class _Sociaux extends State<Sociaux> {
+class _Classement extends State<Classement> {
 
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
       body: new Center(
-        child: new Text("Reseaux sociaux"),
+        child: new Text("Classement"),
       ),
     );
   }
+
 }
