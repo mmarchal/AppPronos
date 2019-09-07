@@ -13,8 +13,8 @@ class _Sociaux extends State<Sociaux> {
   Widget build(BuildContext context) {
     return new Scaffold(
       body: new Center(
-        child: new Text("Reseaux sociaux"),
-      ),
+        child: Text("Coucou")
+      )
     );
   }
 }
