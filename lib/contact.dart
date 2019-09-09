@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:team_ayf/models/custom_text.dart';
 
 class Contact extends StatefulWidget {
   @override
@@ -12,6 +13,11 @@ class _Contact extends State<Contact> {
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
+      appBar: new AppBar(
+        title: CustomText("Contact", color: Colors.white, decoration: TextDecoration.none,),
+        backgroundColor: Colors.green[200],
+        centerTitle: true,
+      ),
       backgroundColor: Colors.green[200],
       body: new Center(
         child: new Column(
@@ -22,10 +28,6 @@ class _Contact extends State<Contact> {
               Icons.account_circle,
               size: MediaQuery.of(context).size.width/4,
               color: Colors.green,
-            ),
-            new Container(
-              margin: EdgeInsets.only(bottom: 40.0),
-              child: new Text("Contact", textScaleFactor: 3.0, style: TextStyle(color: Colors.green),),
             ),
             new Row(
               mainAxisSize: MainAxisSize.min,
