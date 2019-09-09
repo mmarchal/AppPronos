@@ -27,6 +27,32 @@ class _Classement extends State<Classement> {
   var isVisible = false;
   var ranks = new List<Ranking>();
 
+  Future<void> _ackAlert(BuildContext context) {
+    return showDialog<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Chargement en cours ...'),
+          content: new CircularProgressIndicator(),
+        );
+      },
+    );
+  }
+
+  Widget textAndRadio(int id) {
+    return new Row(
+      children: <Widget>[
+        CustomText(pays[id]),
+        new Radio(
+          activeColor: Colors.red[800],
+          groupValue: _currValue,
+          onChanged: (int i) => setState(() => _currValue = i),
+          value: id,
+        ),
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
@@ -43,60 +69,33 @@ class _Classement extends State<Classement> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
-                CustomText("France"),
-                new Radio(
-                  activeColor: Colors.red[800],
-                  groupValue: _currValue,
-                  onChanged: (int i) => setState(() => _currValue = i),
-                  value: 0,
-                ),
-                CustomText("Espagne"),
-                new Radio(
-                  activeColor: Colors.red[800],
-                  groupValue: _currValue,
-                  onChanged: (int i) => setState(() => _currValue = i),
-                  value: 1,
-                ),
-                CustomText("Italie"),
-                new Radio(
-                  activeColor: Colors.red[800],
-                  groupValue: _currValue,
-                  onChanged: (int i) => setState(() => _currValue = i),
-                  value: 2,
-                ),
+                textAndRadio(0),
+                textAndRadio(1),
+                textAndRadio(2),
               ],
             ),
             Row(
-              mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              mainAxisSize: MainAxisSize.min,
               children: <Widget>[
-                CustomText("Allemagne"),
-                new Radio(
-                  activeColor: Colors.red[800],
-                  groupValue: _currValue,
-                  onChanged: (int i) => setState(() => _currValue = i),
-                  value: 3,
-                ),
-                CustomText("Angleterre"),
-                new Radio(
-                  activeColor: Colors.red[800],
-                  groupValue: _currValue,
-                  onChanged: (int i) => setState(() => _currValue = i),
-                  value: 4,
-                ),
+                textAndRadio(3),
+                textAndRadio(4),
               ],
             ),
             RaisedButton(
               color: Colors.black,
               child: CustomText("Envoyer"),
               onPressed: () {
+                _ackAlert(context);
                 Map result = sendUrl[_currValue];
                 Api.getRanking(result['pays'], result['nom']).then((response){
-                  Iterable list = json.decode(response.body);
-                  ranks = list.map((model) => Ranking.fromJson(model)).toList();
-                  setState(() {
-                    isVisible = true;
-                  });
+                  if(response.statusCode == 200) {
+                    Iterable list = json.decode(response.body);
+                    ranks = list.map((model) => Ranking.fromJson(model)).toList();
+                    setState(() {
+                      isVisible = true;
+                    });
+                  }
                 });
               }
             ),
@@ -109,14 +108,8 @@ class _Classement extends State<Classement> {
                   itemCount: ranks.length,
                   itemBuilder: (context, index) {
                     return ListTile(
-                      leading: new Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: <Widget>[
-                          Icon(Icons.star),
-                          Icon(Icons.star),
-                        ],
-                      ),
-                        title: Text("${ranks[index].place} : ${ranks[index].equipe} avec ${ranks[index].points} pts.")
+                      leading: iconsPosition(ranks[index].place),
+                      title: Text("${ranks[index].place} : ${ranks[index].equipe} avec ${ranks[index].points} pts.")
                     );
                   },
                 ),
@@ -126,6 +119,18 @@ class _Classement extends State<Classement> {
         ),
       ),
     );
+  }
+
+  Widget iconsPosition(int longueur) {
+    List<Widget> liste = new List();
+    if(longueur==1 || longueur==2 || longueur==3) {
+      for(int i=3; i>longueur; i--) {
+        liste.add(Icon(Icons.star));
+      }
+      return new Row(children: liste,);
+    } else {
+      return Icon(Icons.accessibility);
+    }
   }
 
 }

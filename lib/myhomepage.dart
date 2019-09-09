@@ -23,17 +23,6 @@ class _MyHomePageState extends State<MyHomePage> {
     {'nom' : 'Reseaux sociaux', 'couleur' : Colors.orange, 'image' : 'assets/reseaux.png'},
   ];
 
-  var ranks = new List<Ranking>();
-
-  @override
-  void initState() {
-    super.initState();
-    /*Api.getRanking("france", "ligue-1").then((value){
-      Iterable list = json.decode(value.body);
-      ranks = list.map((val) => Ranking.fromJson(val)).toList();
-    });*/
-  }
-
   Widget appBarHP() {
     return new PreferredSize(
       child: new AppBar(

@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:http/http.dart' as http;
 
 const url = "https://matchendirect-api.herokuapp.com/classement/pays";
+const serveurR = "http://85.168.125.64/";
 
 class Api {
 

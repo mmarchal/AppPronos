@@ -26,7 +26,6 @@ class _Sociaux extends State<Sociaux> {
         margin: EdgeInsets.all(30),
         child: RaisedButton(
             onPressed: () {
-              print(value['url']);
               _launchURL(value['url']);
             },
             color: value['couleur'],
