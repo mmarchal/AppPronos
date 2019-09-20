@@ -13,9 +13,8 @@ class _Sociaux extends State<Sociaux> {
 
   List<Map> listeReseaux = [
     {'nom' : 'Facebook', 'photo' : 'assets/reseaux/facebook.png', 'couleur' : Colors.blue[600], 'url' : 'https://www.facebook.com/groups/294839581173219/'},
-    {'nom' : 'Twitter', 'photo' : 'assets/reseaux/twitter.png', 'couleur' : Colors.blue[300]},
-    {'nom' : 'Instagram', 'photo' : 'assets/reseaux/instagram.png', 'couleur' : Colors.yellow},
-    {'nom' : 'Mail', 'photo' : 'assets/reseaux/email.png', 'couleur' : Colors.red },
+  /*  {'nom' : 'Twitter', 'photo' : 'assets/reseaux/twitter.png', 'couleur' : Colors.blue[300]},
+    {'nom' : 'Instagram', 'photo' : 'assets/reseaux/instagram.png', 'couleur' : Colors.yellow},*/
   ];
 
   List<Widget> generateButtons() {
@@ -63,9 +62,9 @@ class _Sociaux extends State<Sociaux> {
       appBar: new AppBar(
         title: CustomText("Nos reseaux sociaux", color: Colors.white, decoration: TextDecoration.none,),
         centerTitle: true,
-        backgroundColor: Colors.orange[200],
+        backgroundColor: Colors.teal.shade200,
       ),
-      backgroundColor: Colors.orange[200],
+      backgroundColor: Colors.teal.shade200,
       body: new Center(
         child: new Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,

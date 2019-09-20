@@ -28,6 +28,7 @@ dependencies:
   http: ^0.11.3+16
   shared_preferences: any
   url_launcher: ^5.1.2
+  toast: ^0.1.5
 
 dev_dependencies:
   flutter_test:
@@ -56,7 +57,11 @@ flutter:
    - assets/reseaux/facebook.png
    - assets/reseaux/twitter.png
    - assets/reseaux/email.png
-
+   - assets/balle_tennis.png
+   - assets/ballon_foot.png
+   - assets/question.jpg
+   - assets/avis.png
+   - assets/pourcentage.png
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
 
@@ -73,9 +78,10 @@ flutter:
       fonts:
         - asset: font/avengers.ttf
           style: italic
-  #   - family: Trajan Pro
-  #     fonts:
-  #       - asset: fonts/TrajanPro.ttf
+
+    - family: Nature
+      fonts:
+        - asset: font/nature.otf
   #       - asset: fonts/TrajanPro_Bold.ttf
   #         weight: 700
   #

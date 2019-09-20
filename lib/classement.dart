@@ -24,20 +24,9 @@ class _Classement extends State<Classement> {
     {'pays': 'angleterre', 'nom' : 'barclays-premiership-premier-league'},
   ];
 
-  var isVisible = false;
+  var isVisibleList = false;
+  var isVisibleProgress = false;
   var ranks = new List<Ranking>();
-
-  Future<void> _ackAlert(BuildContext context) {
-    return showDialog<void>(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('Chargement en cours ...'),
-          content: new CircularProgressIndicator(),
-        );
-      },
-    );
-  }
 
   Widget textAndRadio(int id) {
     return new Row(
@@ -86,21 +75,28 @@ class _Classement extends State<Classement> {
               color: Colors.black,
               child: CustomText("Envoyer"),
               onPressed: () {
-                _ackAlert(context);
+                setState(() {
+                  isVisibleProgress= true;
+                });
                 Map result = sendUrl[_currValue];
                 Api.getRanking(result['pays'], result['nom']).then((response){
                   if(response.statusCode == 200) {
                     Iterable list = json.decode(response.body);
                     ranks = list.map((model) => Ranking.fromJson(model)).toList();
                     setState(() {
-                      isVisible = true;
+                      isVisibleList = true;
+                      isVisibleProgress= false;
                     });
                   }
                 });
               }
             ),
             Visibility(
-              visible: isVisible,
+                visible: isVisibleProgress,
+                child: CircularProgressIndicator(backgroundColor: Colors.red,)
+            ),
+            Visibility(
+              visible: isVisibleList,
               child: Flexible(
                 child: ListView.separated(
                   separatorBuilder: (context, index) =>
@@ -108,7 +104,6 @@ class _Classement extends State<Classement> {
                   itemCount: ranks.length,
                   itemBuilder: (context, index) {
                     return ListTile(
-                      leading: iconsPosition(ranks[index].place),
                       title: Text("${ranks[index].place} : ${ranks[index].equipe} avec ${ranks[index].points} pts.")
                     );
                   },
@@ -119,18 +114,6 @@ class _Classement extends State<Classement> {
         ),
       ),
     );
-  }
-
-  Widget iconsPosition(int longueur) {
-    List<Widget> liste = new List();
-    if(longueur==1 || longueur==2 || longueur==3) {
-      for(int i=3; i>longueur; i--) {
-        liste.add(Icon(Icons.star));
-      }
-      return new Row(children: liste,);
-    } else {
-      return Icon(Icons.accessibility);
-    }
   }
 
 }
