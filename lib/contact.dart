@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:team_ayf/models/api.dart';
 import 'package:team_ayf/models/custom_text.dart';
 import 'package:team_ayf/models/mail.dart';
+import 'package:team_ayf/myhomepage.dart';
 import 'package:toast/toast.dart';
 
 class Contact extends StatefulWidget {
@@ -16,6 +17,8 @@ class _Contact extends State<Contact> {
   String nomC;
   String emailC;
   String messageC;
+  String messageEndLoading = "Envoie en cours";
+  bool visibleSendMessage = false;
 
   Widget appBarContact() {
     return new AppBar(
@@ -101,6 +104,47 @@ class _Contact extends State<Contact> {
     );
   }
 
+  void _showDialog(bool b, Color color, String message) {
+    if(color != Colors.black) {
+      Navigator.of(context).pop();
+    }
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        // return object of type Dialog
+        return AlertDialog(
+          title: new CustomText("Message", color: color, factor: 2.0,),
+          content: new Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              Visibility(
+                child: CircularProgressIndicator(),
+                visible: b,
+              ),
+              Padding(padding: EdgeInsets.only(right: 30.0)),
+              CustomText(message, color: color, factor: 1.5,)
+            ],
+          ),
+          actions: <Widget>[
+            // usually buttons at the bottom of the dialog
+            Visibility(
+                visible: !b,
+                child: new FlatButton(
+                  child: new Text("Revenir au menu", style: new TextStyle(color: color),),
+                  onPressed: () {
+                    Navigator.push(context, new MaterialPageRoute(builder: (BuildContext bC){
+                      return new MyHomePage(title: 'Team Alex, Yann & Fab',);
+                    }));
+                  },
+                ),
+            )
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
@@ -121,17 +165,18 @@ class _Contact extends State<Contact> {
               messageContact(),
               new RaisedButton(
                 onPressed: () {
+                  _showDialog(true, Colors.black, "Message en cours d'envoi !");
                   Mail message = new Mail(nomC, emailC, messageC);
                   Api.sendMail(message).then((response){
                     if(response.body == "true") {
-                      Toast.show("Message envoyé", context, duration: Toast.LENGTH_SHORT, gravity:  Toast.BOTTOM, backgroundColor: Colors.green);
+                      _showDialog(false, Colors.green, "Message envoyé !");
                     } else {
-                      Toast.show("Erreur :  ${response.statusCode}", context, duration: Toast.LENGTH_SHORT, gravity:  Toast.BOTTOM, backgroundColor: Colors.red);
+                      _showDialog(false, Colors.red, "Erreur : " + response.body);
                     }
                   });
                 },
                 child: new Text("Envoyer", style: TextStyle(color: Colors.green),),
-              )
+              ),
             ],
           ),
         )

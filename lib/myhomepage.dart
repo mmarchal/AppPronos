@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:team_ayf/classement.dart';
 import 'package:team_ayf/contact.dart';
-import 'package:team_ayf/models/ranking.dart';
 import 'package:team_ayf/pronostic.dart';
 import 'package:team_ayf/sociaux.dart';
 
